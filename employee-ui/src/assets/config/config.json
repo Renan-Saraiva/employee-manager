@@ -1,5 +1,5 @@
 {    
     "managerApi" : {
-        "url": "https://localhost:44394/api"
+        "url": "https://localhost:5001/api"
     }
 }

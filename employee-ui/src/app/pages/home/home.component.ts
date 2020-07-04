@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Employee } from 'src/app/models/employee';
 
 @Component({
   selector: 'app-home',
@@ -12,4 +13,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  employee: Employee = new Employee();
+
+  employeeChange(employee: Employee) {
+    this.employee = employee;
+  }
 }

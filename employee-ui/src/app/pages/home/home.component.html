@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-md-5">
-        <editor></editor>
+        <editor [employee]="employee"></editor>
     </div>
     <div class="col-md-7">
-        <employees-grid></employees-grid>
+        <employees-grid (onEmployeeChange)="employeeChange($event)"></employees-grid>
     </div>
   </div>

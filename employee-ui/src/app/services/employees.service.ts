@@ -5,7 +5,6 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Employee } from '../models/employee';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -45,8 +44,8 @@ export class EmployeesService {
       );
   }
 
-  public Add(employee: Employee): Observable<Employee> {
-    return this.httpClient.post<Employee>(this.baseUrl, employee)
+  public Add(employee: Employee): Observable<number> {
+    return this.httpClient.post<number>(this.baseUrl, employee)
       .pipe(
         catchError(this.handleError)
       );

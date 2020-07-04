@@ -2,19 +2,20 @@
     <div class="card-header">
       <h3 class="card-title">Editor de funcionário</h3>
     </div>
-    <form role="form">
+    <form role="form"  [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input type="hidden" formControlName="employeeId" />
       <div class="card-body">
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Nome</label>
-                <input type="text" class="form-control" placeholder="Digite...">
+                <label>Nome *</label>
+                <input type="text" class="form-control" placeholder="Digite..." formControlName="name" [class.is-invalid]="isInvalid('name')">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Sobrenome</label>
-                <input type="text" class="form-control" placeholder="Digite...">
+                <label>Sobrenome *</label>
+                <input type="text" class="form-control" placeholder="Digite..." formControlName="lastName" [class.is-invalid]="isInvalid('lastName')">
               </div>
             </div>
           </div>
@@ -22,7 +23,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <label>Email</label>
-                <input type="email" class="form-control" placeholder="Digite...">
+                <input type="email" class="form-control" placeholder="Digite..." formControlName="email" [class.is-invalid]="isInvalid('email')">
               </div>
             </div>
           </div>
@@ -31,33 +32,36 @@
               <div class="row">
                   <div class="col-sm-12">
                       <div class="form-group">
-                          <label>Sexo</label>
-                          <select class="form-control">
-                            <option value="1">Masculino</option>
-                            <option value="2">Feminino</option>
+                          <label>Sexo *</label>
+                          <select class="form-control" formControlName="gender" [class.is-invalid]="isInvalid('gender')">
+                            <option [ngValue]="null">Selecione...</option>
+                            <option [ngValue]="1">Masculino</option>
+                            <option [ngValue]="2">Feminino</option>
                           </select>
                         </div>
                   </div>
                   <div class="col-sm-12">
                       <div class="form-group">
-                          <label>Data de nascimento</label>
-                          <input type="date" class="form-control" placeholder="Digite...">
+                          <label>Data de nascimento *</label>
+                          <input type="date" class="form-control" placeholder="Digite..." formControlName="bornOn" [class.is-invalid]="isInvalid('bornOn')">
                       </div>
                   </div>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label>Habilidades</label>
-                <select multiple="" class="form-control" style="height: 125px;">
-                  <option *ngFor="let skill of skills" [value]="skill.skillId">{{skill.name}}</option>
+                <label>Habilidades *</label>
+                <select id="skills" multiple="" class="form-control" formControlName="skills" [class.is-invalid]="isInvalid('skills')">
+                  <option *ngFor="let skill of skills" [ngValue]="skill.skillId">{{skill.name}}</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
         <div class="card-footer">
-          <button type="submit" class="btn btn-info float-right">Salvar</button>
+          <span class="text-danger" *ngIf="isInvalidAge()">O funcionário não pode ter menos que 18 anos.</span>
+          <span class="text-danger" *ngIf="error">Opss... Aconteceu um erro inesperado...</span>
+          <button type="submit" class="btn btn-info float-right" [disabled]="!form.valid">Salvar</button>
         </div>
     </form>
   </div>

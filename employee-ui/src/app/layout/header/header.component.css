@@ -1,0 +1,8 @@
+input[name="text"] {
+    width: 250px;
+}
+
+.input-group.input-group-xl {
+    margin-right: 5px;
+    margin-bottom: 3px;
+}

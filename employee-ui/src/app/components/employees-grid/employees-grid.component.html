@@ -1,0 +1,46 @@
+<div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Empregados</h3>
+
+      <div class="card-tools">
+        <div class="input-group input-group-sm" style="width: 400px;">
+            <select #gender (change)="ListByGender(gender.value)" class="custom-select">
+                <option value="0">Selecione um sexo</option>
+                <option value="1">Feminino</option>
+                <option value="2">Masculino</option>
+            </select>
+          <input type="number" #age name="age" class="form-control float-right" min="18" placeholder="Digite uma idade">
+          <div class="input-group-append">
+            <button type="button" class="btn btn-default" (click)="ListByAge(age.value)"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body table-responsive p-0" style="height: 447px;">
+      <table class="table table-hover table-head-fixed" >
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Data Nascimento</th>
+            <th>Idade</th>
+            <th>Email</th>
+            <th>Sexo</th>
+            <th>Habilidades</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees" (click)="EmployeeClick(employee)" [class.tr-selected]="employee.employeeId == selectedEmployeeId">
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.bornOn | date:'dd/MM/yyyy' }}</td>
+            <td>{{ employee.age }}</td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.gender | genderName }}</td>
+            <td>{{ employee.skills | skillsName:skills }}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

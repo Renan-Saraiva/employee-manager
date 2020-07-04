@@ -1,0 +1,5 @@
+{    
+    "managerApi" : {
+        "url": "https://localhost:44394/api"
+    }
+}

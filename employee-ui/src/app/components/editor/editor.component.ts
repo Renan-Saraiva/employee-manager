@@ -13,13 +13,27 @@ import { minAgeValidator } from 'src/app/validators/age.validator';
 })
 export class EditorComponent implements OnInit {
   
+  form = this.fb.group({
+    employeeId: [],
+    name: [null, Validators.required],
+    lastName: [null, Validators.required],
+    email: [null, Validators.email],
+    gender: [null, Validators.required],
+    bornOn: [null, [Validators.required, minAgeValidator(18)]],
+    skills: [[], Validators.required]
+  });
+  
   skills: Skill[] = [];
-  error: boolean = false;
-    
+  error: boolean = false;  
   _employee: Employee;
-  @Input("employee") set employee(value: Employee) {
+  @Input("employee") set employee(value: Employee) {    
+    if (value.employeeId == -1000) {
+      this.form.reset();
+      return;
+    }
+      
     this._employee = value;
-    this.employeeChange();
+    this.employeeChange();    
   }
 
   get employee(): Employee {
@@ -32,15 +46,6 @@ export class EditorComponent implements OnInit {
     private skillsService: SkillsService
     ) { }
     
-  form = this.fb.group({
-    employeeId: [],
-    name: [null, Validators.required],
-    lastName: [null, Validators.required],
-    email: [null, Validators.email],
-    gender: [null, Validators.required],
-    bornOn: [null, [Validators.required, minAgeValidator(1)]],
-    skills: [[], Validators.required]
-  });
     
   ngOnInit(): void {  
     this.skillsService.GetAll().subscribe(
@@ -55,12 +60,32 @@ export class EditorComponent implements OnInit {
   onSubmit() {
     this.error = false;
     var employee = new Employee(this.form.value);
-
+    
     console.log(employee);
 
-    this.employeesService.Add(new Employee(this.form.value)).subscribe(
-      employeeId => {
-        employee.employeeId = employeeId
+    if (employee.employeeId > 0){
+      this.save(employee);
+      return;
+    }
+
+    this.add(employee);
+  }
+
+  add(employee: Employee) {
+    this.employeesService.Add(employee).subscribe(
+      employee => {
+        this.form.reset();
+      },
+      err => {
+        this.error = true;
+        console.log(err);
+      }
+    );
+  }
+
+  save(employee: Employee) {
+    this.employeesService.Save(employee.employeeId, employee).subscribe(
+      employee => {
         this.form.reset();
       },
       err => {
@@ -78,33 +103,18 @@ export class EditorComponent implements OnInit {
     return this.form.get("bornOn").hasError('minAgeValidator') && this.form.get("bornOn").touched;
   }
 
-  employeeChange() {
+  formartData(data) {
+    if (data)
+      return new Date(data).toISOString().substring(0, 10);
 
-    const { 
-      employeeId,
-      name, 
-      lastName, 
-      email, 
-      gender, 
-      bornOn: unformatBornOn, 
-      skills : arraySkills 
-    } = this._employee;
-    
-    const skills: number[] = arraySkills.map(skill => skill.skillId);
-
-    
-    this.form.patchValue({
-      employeeId,
-      name,
-      lastName,
-      email,
-      gender,
-      skills
-    });
-
-    if (unformatBornOn) {
-      const bornOn = new Date(unformatBornOn).toISOString().substring(0, 10);
-      this.form.patchValue({ bornOn });
-    }
+    return null;
   }
+
+  employeeChange() {
+    let { employeeId, name, lastName, email, gender, bornOn: unformatBornOn, skills : arraySkills } = this._employee;
+    const skills: number[] = arraySkills.map(skill => skill.skillId);
+    const bornOn = this.formartData(unformatBornOn);    
+    this.form.patchValue({employeeId, name, lastName, email, gender, skills, bornOn });
+  }
+
 }

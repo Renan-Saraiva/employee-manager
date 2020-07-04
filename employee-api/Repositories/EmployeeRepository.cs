@@ -85,5 +85,12 @@ namespace Manager.Repositories
         {
             return await _context.Employees.Include(e => e.EmployeeSkills).Where(e => e.Gender == gender).ToListAsync();
         }
+
+        public async Task<List<Employee>> GetByName(string name)
+        {
+            return await _context.Employees.Include(e => e.EmployeeSkills).Where(e => 
+                (e.Name + " " + e.LastName).Contains(name)
+            ).ToListAsync();
+        }
     }  
 }

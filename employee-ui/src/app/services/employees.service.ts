@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { throwError, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { throwError, Observable, Subject } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Employee } from '../models/employee';
 
 @Injectable({
@@ -12,9 +12,21 @@ export class EmployeesService {
 
   private baseUrl: string;
 
+  AddEvent: Subject<Employee> = new Subject<Employee>();
+  SaveEvent: Subject<Employee> = new Subject<Employee>();
+
   constructor(private httpClient: HttpClient, private config: ConfigService) {
     this.baseUrl = `${config.getConfig().managerApi.url}/employees`
   }
+
+  public AddListenerEvent() : Observable<Employee>  {
+    return this.AddEvent;
+  }
+
+  public SaveListenerEvent() : Observable<Employee>  {
+    return this.SaveEvent;
+  }
+
 
   public GetAll() {    
     return this.httpClient.get<Employee[]>(this.baseUrl)
@@ -37,6 +49,13 @@ export class EmployeesService {
       );
   }
 
+  public GetByName(name: string) {    
+    return this.httpClient.get<Employee[]>(this.baseUrl + "?byName=" + name)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   public Get(employeeId: number): Observable<Employee> {
     return this.httpClient.get<Employee>(`${this.baseUrl}/${employeeId}`)
       .pipe(
@@ -44,9 +63,28 @@ export class EmployeesService {
       );
   }
 
-  public Add(employee: Employee): Observable<number> {
-    return this.httpClient.post<number>(this.baseUrl, employee)
+  public Add(employee: Employee): Observable<Employee> {
+    employee.employeeId = 0;
+    return this.httpClient.post<Employee>(this.baseUrl, employee)
       .pipe(
+        tap(em => {
+          this.AddEvent.next(em)
+        }),
+        catchError(this.handleError)
+      );
+  }
+
+  public Delete(employeeId: number): Observable<number> {
+    return this.httpClient.delete<number>(`${this.baseUrl}/${employeeId}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  public Save(employeeId: number, employee: Employee): Observable<Employee> {
+    return this.httpClient.put<Employee>(`${this.baseUrl}/${employeeId}`, employee)
+      .pipe(
+        tap(em => this.SaveEvent.next(em)),
         catchError(this.handleError)
       );
   }

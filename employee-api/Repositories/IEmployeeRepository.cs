@@ -14,5 +14,6 @@ namespace Manager.Repositories
         public Task<bool> ExistAsync(int id);
         public Task<List<Employee>> GetByAge(int age);
         public Task<List<Employee>> GetByGender(Gender gender);
+        public Task<List<Employee>> GetByName(string name);
     }
 }

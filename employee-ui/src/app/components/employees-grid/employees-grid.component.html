@@ -3,7 +3,15 @@
     <h3 class="card-title">Empregados</h3>
     <div class="card-tools">
       <div class="row">
-        <div class="col-6">
+        <div class="col-4">
+          <div class="input-group input-group-sm">
+            <input type="name" #name name="name" class="form-control float-right" min="18" placeholder="Procure pelo nome">
+            <div class="input-group-append">
+              <button type="button" class="btn btn-default" (click)="ListByName(name.value)"><i class="fas fa-search"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
           <div class="input-group input-group-sm">
             <select #gender (change)="ListByGender(gender.value)" class="custom-select">
               <option value="0">Selecione um sexo</option>
@@ -12,10 +20,9 @@
             </select>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-4">
           <div class="input-group input-group-sm">
-            <input type="number" #age name="age" class="form-control float-right" min="18"
-              placeholder="Digite uma idade">
+            <input type="number" #age name="age" class="form-control float-right" min="18" placeholder="Procure pela idade">
             <div class="input-group-append">
               <button type="button" class="btn btn-default" (click)="ListByAge(age.value)"><i class="fas fa-search"></i></button>
             </div>
@@ -36,18 +43,27 @@
           <th>Sexo</th>
           <th>Habilidades</th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let employee of employees" (click)="EmployeeClick(employee)"
-          [class.tr-selected]="employee.employeeId == selectedEmployeeId">
-          <td>{{ employee.name }}</td>
+        <tr *ngFor="let employee of employees"  [class.tr-selected]="employee.employeeId == selectedEmployeeId">
+          <td>{{ employee.name }} {{ employee.lastName }} </td>
           <td>{{ employee.bornOn | date:'dd/MM/yyyy' }}</td>
           <td>{{ employee.age }}</td>
           <td>{{ employee.email }}</td>
           <td>{{ employee.gender | genderName }}</td>
           <td>{{ employee.skills | skillsName:skills }}</td>
-          <td></td>
+          <td>            
+            <button type="button" (click)="EditEmployee(employee)" class="btn btn-block bg-gradient-primary btn-xs ">
+              <i class="fas fa-user-edit"></i>
+            </button>
+          </td>
+          <td>
+            <button type="button" (click)="DeleteEmployee(employee)" class="btn btn-block bg-gradient-danger btn-xs">
+              <i class="fas fa-trash"></i>
+            </button>            
+          </td>
         </tr>
       </tbody>
     </table>

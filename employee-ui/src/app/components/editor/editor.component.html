@@ -1,6 +1,11 @@
 <div class="card card-warning">
     <div class="card-header">
       <h3 class="card-title">Editor de funcionário</h3>
+      <div class="card-tools">      
+        <button type="button" class="btn btn-block btn-info btn-xs" (click)="form.reset()">
+          <i class="fas fa-user-tie"></i>&nbsp;&nbsp;Novo funcionário
+        </button>
+      </div>
     </div>
     <form role="form"  [formGroup]="form" (ngSubmit)="onSubmit()">
       <input type="hidden" formControlName="employeeId" />
@@ -34,9 +39,9 @@
                       <div class="form-group">
                           <label>Sexo *</label>
                           <select class="form-control" formControlName="gender" [class.is-invalid]="isInvalid('gender')">
-                            <option [ngValue]="null">Selecione...</option>
-                            <option [ngValue]="1">Masculino</option>
-                            <option [ngValue]="2">Feminino</option>
+                            <option [ngValue]="null" selected>Selecione...</option>
+                            <option [ngValue]="1">Feminino</option>
+                            <option [ngValue]="2">Masculino</option>
                           </select>
                         </div>
                   </div>

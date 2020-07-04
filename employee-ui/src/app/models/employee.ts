@@ -3,7 +3,7 @@ import { isFormattedError } from '@angular/compiler';
 
 export class Employee {
     
-    employeeId: number;
+    employeeId?: number;
     name: string;
     lastName: string;
     email?: string;
@@ -16,7 +16,7 @@ export class Employee {
         Object.assign(this, init);
         this.skills = [];
 
-        if (init) {
+        if (init && init.skills) {
             init.skills.forEach(element => {
                 this.skills.push({
                     skillId: element as unknown as number

@@ -19,7 +19,7 @@ namespace Manager.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Employee>>> Get([FromQuery(Name = "byAge")]int? age, [FromQuery(Name = "byGender")] Gender? gender)
+        public async Task<ActionResult<List<Employee>>> Get([FromQuery(Name = "byAge")]int? age, [FromQuery(Name = "byGender")] Gender? gender, [FromQuery(Name = "byName")] string name)
         {
             try
             {
@@ -28,6 +28,9 @@ namespace Manager.Controllers
 
                 if (gender.HasValue)
                     return await _repository.GetByGender(gender.Value);
+
+                if (!string.IsNullOrWhiteSpace(name))
+                    return await _repository.GetByName(name);
 
                 return await _repository.GetAllAsync();
             }
@@ -71,9 +74,8 @@ namespace Manager.Controllers
                 if (ModelState.IsValid)
                 {
                     employee.EmployeeId = 0;
-                    var employeeId = await _repository.AddAsync(employee);
-
-                    return Ok(employeeId);
+                    await _repository.AddAsync(employee);                    
+                    return Ok(employee);
                 }
 
                 return BadRequest(ModelState);
@@ -102,8 +104,7 @@ namespace Manager.Controllers
                     employee.EmployeeId = id;
                     await _repository.UpdateAsync(employee);
 
-                    return Ok();
-
+                    return Ok(employee);
                 }
 
                 return BadRequest(ModelState);

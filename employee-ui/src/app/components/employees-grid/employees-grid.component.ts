@@ -20,24 +20,37 @@ export class EmployeesGridComponent implements OnInit {
   selectedEmployeeId: number = 0;
 
   ngOnInit(): void {
+
+    this.employeesService.AddListenerEvent().subscribe(
+      employee => { this.employees.push(employee);  console.log(employee);}
+    )
+
+    this.employeesService.SaveListenerEvent().subscribe(
+      employee => {
+        const index = this.employees.findIndex(ep => ep.employeeId == employee.employeeId);
+        console.log(employee);
+        this.employees[index] = employee;
+      } 
+    )
+
+    this.GetAll();
+  }
+
+  GetAll(): void {
     this.skillsService.GetAll().subscribe(
       skills => {        
         this.skills = skills;
         this.ListEmployess();
       },
-      err => {
-        console.log(err);
-      })
+      err => console.log(err)
+    )
   }
 
   ListEmployess(): void {
     this.employeesService.GetAll().subscribe(
-      employees => {        
-        this.employees = employees;
-      },
-      err => {
-        console.log(err);
-      })
+      employees => this.employees = employees,
+      err => console.log(err)
+    )
   }
   
   ListByGender(gender: number): void {    
@@ -49,12 +62,9 @@ export class EmployeesGridComponent implements OnInit {
     }
 
     this.employeesService.GetByGender(gender).subscribe(
-      employees => {        
-        this.employees = employees;
-      },
-      err => {
-        console.log(err);
-      })
+      employees => this.employees = employees,
+      err => console.log(err)
+    )
   }
 
   ListByAge(age: number): void {
@@ -66,17 +76,43 @@ export class EmployeesGridComponent implements OnInit {
     }
 
     this.employeesService.GetByAge(age).subscribe(
-      employees => {        
-        console.log(employees);
-        this.employees = employees;
+      employees => this.employees = employees,
+      err => console.log(err)
+    )
+  }
+
+  ListByName(name: string): void {
+    this.selectedEmployeeId = 0;
+
+    if (!name || name.length == 0) {
+      this.ListEmployess();
+      return;
+    }
+
+    this.employeesService.GetByName(name).subscribe(
+      employees => this.employees = employees,
+      err => console.log(err)
+    )
+  }
+
+  EditEmployee(employee: Employee): void {
+    this.selectedEmployeeId = employee.employeeId;
+    this.onEmployeeChange.emit(employee);
+  }
+
+  DeleteEmployee(employee: Employee): void {
+    this.employeesService.Delete(employee.employeeId).subscribe(
+      () => {
+        if (employee.employeeId == this.selectedEmployeeId) {
+          this.selectedEmployeeId = 0;
+          this.onEmployeeChange.emit(new Employee({employeeId: -1000 }));
+        }
+
+        this.employees = this.employees.filter(emp => emp.employeeId != employee.employeeId);
       },
       err => {
         console.log(err);
-      })
-  }
-
-  EmployeeClick(employee: Employee): void {
-    this.selectedEmployeeId = employee.employeeId;
-    this.onEmployeeChange.emit(employee);
+      }
+    )
   }
 }

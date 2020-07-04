@@ -15,7 +15,6 @@ namespace Manager.Models
         public string LastName { get; set; }
         [Required]
         public DateTime BornOn { get; set; }
-        [EmailAddress]
         public string Email { get; set; }
         [Required]
         public Gender Gender { get; set; }
@@ -34,13 +33,6 @@ namespace Manager.Models
         }
     }
 
-    public class Skill
-    {
-        public int SkillId { get; set; }
-        [Required]
-        public string Name { get; set; }
-        public List<EmployeeSkill> EmployeeSkills { get; set; }
-    }
 
     public enum Gender
     {

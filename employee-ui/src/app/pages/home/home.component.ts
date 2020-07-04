@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  employee: Employee = new Employee();
+  employee: Employee = new Employee({employeeId: -1000});
 
   employeeChange(employee: Employee) {
     this.employee = employee;

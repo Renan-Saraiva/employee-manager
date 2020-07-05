@@ -24,6 +24,11 @@ namespace Manager
                 builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
             }));
 
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
+
             services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer("name=DefaultConnection"));
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ISkillRepository, SkillRepository>();

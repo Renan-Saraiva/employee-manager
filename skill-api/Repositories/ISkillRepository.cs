@@ -1,6 +1,6 @@
-﻿using Manager.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Manager.Models;
 
 namespace Manager.Repositories
 {

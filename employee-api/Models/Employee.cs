@@ -47,7 +47,5 @@ namespace Manager.Models
         [JsonIgnore]
         public Employee Employee { get; set; }        
         public int SkillId { get; set; }
-        [JsonIgnore]
-        public Skill Skill { get; set; }
     }
 }

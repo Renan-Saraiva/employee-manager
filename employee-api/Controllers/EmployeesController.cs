@@ -1,10 +1,9 @@
-﻿using Manager.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Manager.Models;
 using Manager.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Manager.Controllers
 {

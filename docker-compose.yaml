@@ -32,20 +32,48 @@
           - 8888:8888
       volumes:
           - ./src/config:/config
-    # api:
-      # image: netflix-api-movies
-      # container_name: api-movies
-      # build: 
-        # context: ./src
-        # dockerfile: Dockerfile
-      # ports:
-        # - "5101:5101"
-        # - "5100:5100"
-      # networks: 
-        # - net
-      # depends_on:
-        # eureka:
-          # condition: service_healthy 
+    employee-api:
+      image: employee-api
+      container_name: employee-api
+      build: 
+        context: ./employee-api
+        dockerfile: Dockerfile
+      ports:
+        - "5101:5101"
+        - "5100:5100"
+      networks: 
+        - net
+      depends_on:
+        eureka:
+          condition: service_healthy 
+    skill-api:
+      image: skill-api
+      container_name: skill-api
+      build: 
+        context: ./skill-api
+        dockerfile: Dockerfile
+      ports:
+        - "6101:6101"
+        - "6100:6100"
+      networks: 
+        - net
+      depends_on:
+        eureka:
+          condition: service_healthy
+    # app-ui:
+    #  image: app-ui
+    #  container_name: app-ui
+    #  build: 
+    #    context: ./employee-ui
+    #    dockerfile: Dockerfile
+    #  ports:
+    #    - "8080:8080"
+    #    - "8000:8000"
+    #  networks: 
+    #    - net
+    #  depends_on:
+    #    - employee-api
+    #    - skill-api
     db:
       image: mysql
       command: --default-authentication-plugin=mysql_native_password
@@ -62,6 +90,6 @@
       image: adminer
       restart: always
       ports:
-        - 8080:8080
+        - 6060:8080
       networks: 
         - net

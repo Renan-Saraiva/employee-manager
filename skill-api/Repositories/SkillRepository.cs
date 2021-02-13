@@ -1,8 +1,8 @@
-﻿using Manager.Infrastructure;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Manager.Infrastructure;
 using Manager.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Manager.Repositories
 {

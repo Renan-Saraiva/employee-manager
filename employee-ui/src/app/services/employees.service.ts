@@ -16,7 +16,7 @@ export class EmployeesService {
   SaveEvent: Subject<Employee> = new Subject<Employee>();
 
   constructor(private httpClient: HttpClient, private config: ConfigService) {
-    this.baseUrl = `${config.getConfig().managerApi.url}/employees`
+    this.baseUrl = `${config.getConfig().managerApi.employees.url}/employees`
   }
 
   public AddListenerEvent() : Observable<Employee>  {

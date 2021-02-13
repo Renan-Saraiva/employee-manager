@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Manager.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210213013419_InitialCreate")]
+    [Migration("20210213190444_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,24 +57,7 @@ namespace Manager.Migrations
 
                     b.HasKey("EmployeeId", "SkillId");
 
-                    b.HasIndex("SkillId");
-
                     b.ToTable("EmployeeSkills");
-                });
-
-            modelBuilder.Entity("Manager.Models.Skill", b =>
-                {
-                    b.Property<int>("SkillId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("SkillId");
-
-                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("Manager.Models.EmployeeSkill", b =>
@@ -82,12 +65,6 @@ namespace Manager.Migrations
                     b.HasOne("Manager.Models.Employee", "Employee")
                         .WithMany("EmployeeSkills")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Manager.Models.Skill", "Skill")
-                        .WithMany("EmployeeSkills")
-                        .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

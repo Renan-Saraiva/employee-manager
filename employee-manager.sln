@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "employee-api", "employee-api\employee-api.csproj", "{19A5B866-6AC5-4C05-B83A-6867706CB823}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "skill-api", "skill-api\skill-api.csproj", "{0DA7BD37-D39F-452F-ACF0-FCD856B321FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "skill-api", "skill-api\skill-api.csproj", "{0DA7BD37-D39F-452F-ACF0-FCD856B321FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

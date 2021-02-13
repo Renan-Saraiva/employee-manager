@@ -11,7 +11,6 @@ namespace Manager.Infrastructure
         }
 
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Skill> Skills { get; set; }
         public DbSet<EmployeeSkill> EmployeeSkills { get; set; }
 
 
@@ -24,11 +23,6 @@ namespace Manager.Infrastructure
                 .HasOne(es => es.Employee)
                 .WithMany(e => e.EmployeeSkills)
                 .HasForeignKey(es => es.EmployeeId);
-
-            modelBuilder.Entity<EmployeeSkill>()
-                .HasOne(es => es.Skill)
-                .WithMany(s => s.EmployeeSkills)
-                .HasForeignKey(es => es.SkillId);
         }
     }
 }

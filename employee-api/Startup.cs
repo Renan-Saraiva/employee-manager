@@ -26,7 +26,6 @@ namespace Manager
 
             services.AddDbContext<ApplicationContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            services.AddScoped<ISkillRepository, SkillRepository>();
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });

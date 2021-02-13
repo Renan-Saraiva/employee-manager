@@ -3,5 +3,11 @@ export interface Config {
 }
 
 export interface API {
+    skills: Service;
+    employees: Service;
+    url: string;
+}
+
+export interface Service {
     url: string;
 }

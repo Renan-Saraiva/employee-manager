@@ -14,7 +14,7 @@ export class SkillsService {
   private baseUrl: string;
 
   constructor(private httpClient: HttpClient, private config: ConfigService) {
-    this.baseUrl = `${config.getConfig().managerApi.url}/skills`
+    this.baseUrl = `${config.getConfig().managerApi.skills.url}/skills`
   }
 
   public GetAll() {    

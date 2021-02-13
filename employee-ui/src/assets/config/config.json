@@ -1,5 +1,11 @@
 {    
     "managerApi" : {
+        "skills": {
+            "url": "https://localhost:6001/api"
+        },
+        "employees": { 
+            "url": "https://localhost:5001/api"
+        },
         "url": "https://localhost:5001/api"
     }
 }

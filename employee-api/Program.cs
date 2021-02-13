@@ -15,8 +15,7 @@ namespace Manager
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                        .UseStartup<Startup>()
-                        .UseIISIntegration();
+                        .UseStartup<Startup>();
                 });
     }
 }

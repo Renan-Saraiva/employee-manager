@@ -24,17 +24,13 @@ namespace Manager
                 builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
             }));
 
-            services.Configure<IISServerOptions>(options =>
-            {
-                options.AutomaticAuthentication = false;
-            });
-
-            services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer("name=DefaultConnection"));
+            services.AddDbContext<ApplicationContext>(opt => opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ISkillRepository, SkillRepository>();
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -51,6 +47,11 @@ namespace Manager
             app.UseAuthorization();
             
             app.UseCors("ManagerPolicy");
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Employee Manager API");
+            });
 
             app.UseEndpoints(endpoints =>
             {
